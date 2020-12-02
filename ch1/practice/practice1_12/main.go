@@ -10,7 +10,6 @@ import (
 	"math/rand"
 	"net/http"
 	"strconv"
-	"strings"
 	"time"
 )
 
@@ -24,8 +23,7 @@ const (
 func main() {
 	rand.Seed(time.Now().UTC().UnixNano())
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		var values = strings.Split(r.URL.String(), "=")
-		var cycles, _ = strconv.Atoi(values[1])
+		var cycles, _ = strconv.Atoi(r.FormValue("cycles"))
 		lissajous(w, float64(cycles))
 	})
 	log.Fatal(http.ListenAndServe("localhost:8000", nil))
